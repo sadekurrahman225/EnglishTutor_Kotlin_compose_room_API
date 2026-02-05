@@ -36,7 +36,15 @@ fun LessonScreen(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.height(16.dp))
 
         lessons.forEach { lesson ->
-            Text(text = lesson.title)
+            LessonItem(
+                lesson = lesson,
+                onUpdate = {
+                    scope.launch { dao.updateLesson(it) }
+                },
+                onDelete = {
+                    scope.launch { dao.deleteLesson(it) }
+                }
+            )
         }
     }
 }

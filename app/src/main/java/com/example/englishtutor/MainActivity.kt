@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
 //                        name = "Android",
 //                        modifier = Modifier.padding(innerPadding)
 //                    )
-                    LessonScreen( modifier = Modifier.padding(innerPadding))
+                    LessonScreen(modifier = Modifier.padding(innerPadding) )
                 }
             }
         }
