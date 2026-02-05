@@ -14,19 +14,12 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun lessonDao(): LessonDao
 
     companion object {
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
-
         fun getDatabase(context: Context): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "english_tutor_db"
-                ).build()
-                INSTANCE = instance
-                instance
-            }
+            return Room.databaseBuilder(
+                context.applicationContext,
+                AppDatabase::class.java,
+                "english_tutor_db"
+            ).build()
         }
     }
 }
