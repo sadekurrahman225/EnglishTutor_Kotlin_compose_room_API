@@ -20,6 +20,9 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.englishtutor.ui.navigation.AppNavGraph
+import com.example.englishtutor.ui.navigation.includes.AppDrawer
+import com.example.englishtutor.ui.navigation.includes.BottomBar
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

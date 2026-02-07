@@ -1,4 +1,4 @@
-package com.example.englishtutor.ui.screens.home
+package com.example.englishtutor.ui.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home

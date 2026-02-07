@@ -1,13 +1,13 @@
-package com.example.englishtutor.ui.screens.home
+package com.example.englishtutor.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.englishtutor.ui.screens.LessonScreen
-import com.example.englishtutor.ui.screens.ProfileScreen
-import com.example.englishtutor.ui.screens.SettingsScreen
+import com.example.englishtutor.ui.screens.lessonscreen.LessonScreen
+import com.example.englishtutor.ui.screens.ProfileScreen.ProfileScreen
+import com.example.englishtutor.ui.screens.SettingsScreen.SettingsScreen
 
 @Composable
 fun AppNavGraph(
