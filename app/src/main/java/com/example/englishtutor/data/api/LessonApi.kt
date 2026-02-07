@@ -4,6 +4,6 @@ import retrofit2.http.GET
 
 interface LessonApi {
 
-    @GET("lessons/api")
+    @GET("google.com/lessons/api")
     suspend fun getLessons(): List<LessonDto>
 }
