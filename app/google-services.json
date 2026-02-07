@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "692567436974",
+    "project_id": "englishtutor-kotlin-compose",
+    "storage_bucket": "englishtutor-kotlin-compose.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692567436974:android:df482ac3f0224eabbe873f",
+        "android_client_info": {
+          "package_name": "EnglishTutor.room.api"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp8Tezl2muRr1Bqv9ZhOdNrl_kjmGSKK4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:692567436974:android:2dac174ea4772d3abe873f",
+        "android_client_info": {
+          "package_name": "com.example.englishtutor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp8Tezl2muRr1Bqv9ZhOdNrl_kjmGSKK4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

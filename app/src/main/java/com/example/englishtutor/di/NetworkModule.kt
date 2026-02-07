@@ -1,6 +1,7 @@
 package com.example.englishtutor.di
 
 import com.example.englishtutor.data.api.LessonApi
+import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +31,7 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://www.")
+            .baseUrl("https://api.example.com/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -40,5 +41,11 @@ class NetworkModule {
     @Singleton
     fun provideLessonApi(retrofit: Retrofit): LessonApi {
         return retrofit.create(LessonApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseDatabase(): FirebaseDatabase {
+        return FirebaseDatabase.getInstance()
     }
 }

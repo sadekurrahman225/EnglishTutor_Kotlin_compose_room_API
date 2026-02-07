@@ -6,10 +6,13 @@ import com.example.englishtutor.data.repository.LessonRepository
 import com.example.englishtutor.data.LessonEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,24 +35,24 @@ class LessonViewModel @Inject constructor(private val lessonRepository: LessonRe
 
     private fun syncLessons() {
         viewModelScope.launch(exceptionHandler) {
-            try {
-                println("API sync started")
-                lessonRepository.syncLessonsFromApi()
-            } catch (e: Exception) {
-                // This will now catch exceptions from the suspend function
-                println("API sync failed: ${e.message}")
+            withContext(Dispatchers.IO) {
+                try {
+                    lessonRepository.syncLessonsFromApi()
+                } catch (e: Exception) {
+                    println("API sync failed: ${e.message}")
+                }
             }
         }
     }
 
     fun addLesson() {
         viewModelScope.launch {
-            lessonRepository.insertLesson(
-                LessonEntity(
-                    title = "Lesson ${lessons.value.size + 1}",
-                    description = "Basic English sentence"
-                )
+            val newLesson = LessonEntity(
+                id = UUID.randomUUID().toString(),
+                title = "Lesson ${lessons.value.size + 1}",
+                description = "Basic English sentence"
             )
+            lessonRepository.insertLesson(newLesson)
         }
     }
 
