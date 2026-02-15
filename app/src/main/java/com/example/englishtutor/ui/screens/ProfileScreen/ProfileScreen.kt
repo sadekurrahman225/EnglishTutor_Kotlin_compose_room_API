@@ -53,18 +53,16 @@ fun ProfileScreen(
             is NetworkResult.Success -> {
                 val doctors = (state as NetworkResult.Success).data
 
-                Column(
+                LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    LazyColumn(
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        items(doctors) { doctor ->
-                            Text(
-                                text = doctor.name,
-                                modifier = Modifier.padding(16.dp)
-                            )
-                        }
+                    items(doctors) {
+                        Text(
+                            text = it.name,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp)
+                        )
                     }
                 }
             }
