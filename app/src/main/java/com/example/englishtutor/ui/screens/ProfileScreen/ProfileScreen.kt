@@ -26,6 +26,10 @@ fun ProfileScreen(
 //        Text(text = "Profile Screen")
 //    }
 
+    LaunchedEffect(Unit) {
+        profileViewModel.loadDoctors()
+    }
+
     val state by profileViewModel.state.collectAsState()
 
     when (state) {

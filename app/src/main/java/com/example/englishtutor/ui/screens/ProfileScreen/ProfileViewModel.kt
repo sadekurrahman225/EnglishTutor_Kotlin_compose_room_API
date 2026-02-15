@@ -16,11 +16,8 @@ class ProfileViewModel: ViewModel() {
         MutableStateFlow<NetworkResult<List<DoctorListModel>>>(NetworkResult.Loading)
     val state: StateFlow<NetworkResult<List<DoctorListModel>>> = _state
 
-    init {
-        loadDoctors()
-    }
 
-    private fun loadDoctors() {
+    fun loadDoctors() {
         viewModelScope.launch {
             _state.value = NetworkResult.Loading
 
