@@ -17,7 +17,7 @@ class ProfileViewModel: ViewModel() {
     val state: StateFlow<NetworkResult<List<DoctorListModel>>> = _state
 
 
-    fun loadDoctors() {
+    fun loadDoctors(forceRefresh: Boolean = false) {
         viewModelScope.launch {
             _state.value = NetworkResult.Loading
 

@@ -1,71 +1,86 @@
 package com.example.englishtutor.ui.screens.ProfileScreen
 
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.englishtutor.data.model.DoctorListModel
 import com.example.englishtutor.util.NetworkResult
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun ProfileScreen(
     profileViewModel: ProfileViewModel = viewModel()
 ) {
-//    Box(
-//        modifier = Modifier.fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        Text(text = "Profile Screen")
-//    }
 
     LaunchedEffect(Unit) {
         profileViewModel.loadDoctors()
     }
 
     val state by profileViewModel.state.collectAsState()
+    val isRefreshing = state is NetworkResult.Loading
 
-    when (state) {
-        is NetworkResult.Loading -> {
-            Text("Loading...")
+    val pullRefreshState = rememberPullRefreshState(
+        refreshing = isRefreshing,
+        onRefresh = {
+            profileViewModel.loadDoctors(forceRefresh = true)
         }
+    )
 
-        is NetworkResult.Success -> {
-            val doctors = (state as NetworkResult.Success).data
-            LazyColumn {
-                items(doctors) {
-                    Text(it.name)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .pullRefresh(pullRefreshState)
+    ) {
+
+        when (state) {
+
+            is NetworkResult.Loading -> {
+                Text(
+                    text = "Loading...",
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+
+            is NetworkResult.Success -> {
+                val doctors = (state as NetworkResult.Success).data
+
+                Column(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    LazyColumn(
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        items(doctors) { doctor ->
+                            Text(
+                                text = doctor.name,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
+                    }
                 }
+            }
+
+            is NetworkResult.Error -> {
+                Text(
+                    text = "Error loading data",
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
         }
 
-        is NetworkResult.Error -> {
-            Text("Error loading data")
-        }
+        PullRefreshIndicator(
+            refreshing = isRefreshing,
+            state = pullRefreshState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
-
-//    var doctors by remember { mutableStateOf<List<DoctorListModel>>(emptyList()) }
-//    val scope = rememberCoroutineScope()
-//
-//    LaunchedEffect(Unit) {
-//        try {
-//            doctors = ListApiOjbects.api.getDoctorProfiles()
-//
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
-//
-//    LazyColumn {
-//        items(doctors) { doctor ->
-//            Text(text = doctor.name)
-//        }
-//    }
 }
