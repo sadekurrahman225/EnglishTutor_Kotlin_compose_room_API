@@ -37,6 +37,7 @@ class LessonViewModel @Inject constructor(private val lessonRepository: LessonRe
         viewModelScope.launch(exceptionHandler) {
             withContext(Dispatchers.IO) {
                 try {
+                    println("API syncLessons InProgress")
                     lessonRepository.syncLessonsFromApi()
                 } catch (e: Exception) {
                     println("API sync failed: ${e.message}")
