@@ -1,5 +1,6 @@
 package com.example.englishtutor.ui.screens.ProfileScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -21,10 +22,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.englishtutor.R
+import com.example.englishtutor.ui.navigation.Screen
 import com.example.englishtutor.util.NetworkResult
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -32,6 +35,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterialApi::class)
 @Composable
 fun ProfileScreen(
+    navController: NavController,
     profileViewModel: ProfileViewModel = viewModel()
 ) {
 
@@ -88,7 +92,9 @@ fun ProfileScreen(
                 ) {
                     items(doctors) { doctor ->
                         Column(
-                            modifier = Modifier.padding(8.dp),
+                            modifier = Modifier
+                                .padding(8.dp)
+                                .clickable { navController.navigate(Screen.Details.createRoute(doctor.id)) },
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             AsyncImage(

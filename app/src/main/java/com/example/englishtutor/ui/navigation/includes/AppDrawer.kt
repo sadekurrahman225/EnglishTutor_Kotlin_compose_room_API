@@ -20,7 +20,11 @@ fun AppDrawer(
             drawerItems.forEach { screen ->
                 NavigationDrawerItem(
                     label = { Text(screen.title) },
-                    icon = { Icon(screen.icon, contentDescription = screen.title) },
+                    icon = {
+                        screen.icon?.let {
+                            Icon(imageVector = it, contentDescription = screen.title)
+                        }
+                    },
                     selected = false,
                     onClick = { onItemSelected(screen.route) }
                 )
