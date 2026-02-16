@@ -1,10 +1,16 @@
 package com.example.englishtutor.data.api.libraries
 
+
 import com.example.englishtutor.data.model.DoctorListModel
+import com.example.englishtutor.data.model.DoctorProfileModel
+import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface LibraryInterface {
 
     @GET("planning/doctor_profiles_list")
-    suspend fun getWeekInfo() : List<DoctorListModel>
+    suspend fun getWeekInfo() : Response<List<DoctorListModel>>
+    @GET("planning/doctor_profile_by_id/id/{doctorId}")
+    suspend fun getDoctorProfileByIdInterface(@Path("doctorId") id: Int) : Response<DoctorProfileModel>
 }

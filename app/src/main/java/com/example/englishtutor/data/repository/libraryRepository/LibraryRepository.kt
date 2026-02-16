@@ -1,18 +1,51 @@
 package com.example.englishtutor.data.repository.libraryRepository
 
-import com.example.englishtutor.data.api.libraries.LibraryApiObject
 import com.example.englishtutor.data.api.libraries.LibraryInterface
+import com.example.englishtutor.data.exception.ResourceNotFoundException
 import com.example.englishtutor.data.model.DoctorListModel
+import com.example.englishtutor.data.model.DoctorProfileModel
+import retrofit2.HttpException
+import javax.inject.Inject
 
-class LibraryRepository(
-    private val libraryInterface: LibraryInterface = LibraryApiObject.libraryInterface
+class LibraryRepository @Inject constructor(
+    private val libraryInterface: LibraryInterface
 ) {
     suspend fun getWeekInfoRepo(): Result<List<DoctorListModel>> {
         return try {
             val response = libraryInterface.getWeekInfo()
-            Result.success(response)
+            if (response.isSuccessful) {
+                val body = response.body()
+                if (body != null) {
+                    Result.success(body)
+                } else {
+                    Result.failure(Exception("Response body is null"))
+                }
+            } else {
+                Result.failure(HttpException(response))
+            }
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    suspend fun getDoctorProfile(id: Int): Result<DoctorProfileModel?> = try {
+        val response = libraryInterface.getDoctorProfileByIdInterface(id)
+
+        when {
+            response.isSuccessful -> {
+                val body = response.body()
+                if (body != null) {
+                    Result.success(body)
+                } else {
+                    // 204 No Content or empty successful response
+                    Result.success(null)           // or Result.Empty / custom state
+                    // or Result.failure(NotFoundException(...))
+                }
+            }
+            response.code() == 404 -> Result.failure(ResourceNotFoundException())
+            else -> Result.failure(HttpException(response))
+        }
+    } catch (e: Exception) {
+        Result.failure(e)   // network error, serialization error, etc.
     }
 }
