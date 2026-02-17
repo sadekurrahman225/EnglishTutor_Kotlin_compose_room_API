@@ -7,7 +7,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.englishtutor.ui.screens.Details.DetailsPage
+import com.example.englishtutor.ui.screens.details.DetailsPage
 import com.example.englishtutor.ui.screens.lessonscreen.LessonScreen
 import com.example.englishtutor.ui.screens.ProfileScreen.ProfileScreen
 import com.example.englishtutor.ui.screens.SettingsScreen.SettingsScreen
@@ -36,7 +36,7 @@ fun AppNavGraph(
             arguments = listOf(navArgument("id") { type = NavType.IntType })
         ) { backStackEntry ->
             val id = backStackEntry.arguments?.getInt("id") ?: 0
-            DetailsPage(id)
+            DetailsPage(id, navController)
         }
     }
 }

@@ -1,7 +1,9 @@
 package com.example.englishtutor.di
 
 import com.example.englishtutor.data.api.LessonApi
+import com.example.englishtutor.data.api.LibraryApi
 import com.example.englishtutor.data.api.libraries.LibraryInterface
+import com.example.englishtutor.data.repository.libraryRepository.LibraryRepository
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
@@ -32,7 +34,7 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://202.4.102.250:7964/lr_api/index.php/api//")
+            .baseUrl("http://202.4.102.250:7964/lr_api/index.php/api/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -46,13 +48,25 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideLibraryInterface(retrofit: Retrofit): LibraryInterface {
-        return retrofit.create(LibraryInterface::class.java)
+    fun provideLibraryApi(retrofit: Retrofit): LibraryApi {
+        return retrofit.create(LibraryApi::class.java)
     }
 
     @Provides
     @Singleton
     fun provideFirebaseDatabase(): FirebaseDatabase {
         return FirebaseDatabase.getInstance()
+    }
+
+    @Provides
+    @Singleton
+    fun provideLibraryInterface(retrofit: Retrofit): LibraryInterface {
+        return retrofit.create(LibraryInterface::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLibraryRepository(libraryInterface: LibraryInterface): LibraryRepository {
+        return LibraryRepository(libraryInterface)
     }
 }

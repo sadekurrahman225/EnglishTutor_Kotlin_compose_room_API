@@ -1,5 +1,7 @@
 package com.example.englishtutor.data.repository.libraryRepository
 
+import android.util.Log
+import com.example.englishtutor.data.api.AppointmentRequest
 import com.example.englishtutor.data.api.libraries.LibraryInterface
 import com.example.englishtutor.data.exception.ResourceNotFoundException
 import com.example.englishtutor.data.model.DoctorListModel
@@ -24,6 +26,7 @@ class LibraryRepository @Inject constructor(
                 Result.failure(HttpException(response))
             }
         } catch (e: Exception) {
+            Log.e("LibraryRepository", "Error fetching week info", e)
             Result.failure(e)
         }
     }
@@ -46,6 +49,20 @@ class LibraryRepository @Inject constructor(
             else -> Result.failure(HttpException(response))
         }
     } catch (e: Exception) {
+        Log.e("LibraryRepository", "Error fetching doctor profile", e)
         Result.failure(e)   // network error, serialization error, etc.
+    }
+
+    suspend fun submitAppointment(request: AppointmentRequest): Result<Unit> {
+        return try {
+            val response = libraryInterface.submitAppointment(request)
+            if (response.isSuccessful) {
+                Result.success(Unit)
+            } else {
+                Result.failure(HttpException(response))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
     }
 }

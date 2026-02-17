@@ -1,20 +1,16 @@
 package com.example.englishtutor.di
 
-import com.example.englishtutor.data.api.libraries.LibraryInterface
-import com.example.englishtutor.data.repository.libraryRepository.LibraryRepository
+import com.example.englishtutor.data.repository.LibraryInterface
+import com.example.englishtutor.data.repository.LibraryRepository
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
-class RepositoryModule {
+@InstallIn(SingletonComponent::class)
+abstract class RepositoryModule {
 
-    @Provides
-    @Singleton
-    fun provideLibraryRepository(libraryInterface: LibraryInterface): LibraryRepository {
-        return LibraryRepository(libraryInterface)
-    }
+    @Binds
+    abstract fun bindLibraryInterface(libraryRepository: LibraryRepository): LibraryInterface
 }
